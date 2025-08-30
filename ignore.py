@@ -1,8 +1,83 @@
-# -------------------------
-# Hangman Game
-# -------------------------
 
-# Function to display the word progress
+TITLE = """
+__        __  _                            _           _                                            
+\ \      / / | |                          | |         | |                                           
+ \ \ /\ / /__| | ___ ___  _ __ ___   ___  | |_ ___    | |__   __ _ _ __   __ _ _ __ ___   __ _ ___ 
+  \ V  V / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \   | '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` / __|
+   \_/\_/  __/ | (_| (_) | | | | | |  __/ | || (_) |  | | | | (_| | | | | (_| | | | | | | (_| \__ \\
+        \___|_|\___\___/|_| |_| |_|\___|  \__\___/   |_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|___/
+                                                                         __/ |                      
+                                                                        |___/                       
+"""
+
+
+HANGMAN_PICS = [
+    """
+     +---+
+     |   |
+         |
+         |
+         |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+         |
+         |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+     |   |
+         |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+    /|   |
+         |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+    /|\\  |
+         |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+    /|\\  |
+    /    |
+         |
+    =========
+    """,
+    """
+     +---+
+     |   |
+     O   |
+    /|\\  |
+    / \\  |
+         |
+    =========
+    """
+]
+
+
 def display_progress(word, guessed_letters):
     progress = ""
     for letter in word:
@@ -12,7 +87,7 @@ def display_progress(word, guessed_letters):
             progress += "_ "
     return progress.strip()
 
-# Function to get a valid guess from the player
+
 def get_guess(previous_guesses):
     while True:
         guess = input("Enter a letter: ").lower()
@@ -31,37 +106,39 @@ def get_guess(previous_guesses):
 
         return guess
 
-# Main function
-def main():
-    word = "castle"          # The secret word
-    guessed_letters = []     # List of letters the player guessed
-    lives = 6                # Number of allowed wrong guesses
 
-    print("Welcome to Hangman!")
-    print(display_progress(word, guessed_letters))
+def main():
+    print(TITLE)
+
+    word = "castle"
+    guessed_letters = []
+    lives = 6
 
     while True:
+        print(HANGMAN_PICS[6 - lives])
+        print(display_progress(word, guessed_letters))
+
         guess = get_guess(guessed_letters)
         guessed_letters.append(guess)
 
         if guess in word:
-            print("Good guess!")
+            print("Good guess!\n")
         else:
             lives -= 1
-            print(f"Wrong guess! Lives left: {lives}")
+            print(f"Wrong guess! Lives left: {lives}\n")
 
-        print(display_progress(word, guessed_letters))
 
-        # Check win condition
         if all(letter in guessed_letters for letter in word):
+            print(display_progress(word, guessed_letters))
             print("Congratulations! You won!")
             break
 
-        # Check lose condition
+
         if lives <= 0:
+            print(HANGMAN_PICS[6])
             print(f"You lost! The word was '{word}'.")
             break
 
-# Run the game
+
 if __name__ == "__main__":
     main()
